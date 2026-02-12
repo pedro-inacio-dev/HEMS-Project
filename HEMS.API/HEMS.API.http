@@ -1,0 +1,6 @@
+@HEMS.API_HostAddress = http://localhost:5278
+
+GET {{HEMS.API_HostAddress}}/Person/
+Accept: application/json
+
+###
