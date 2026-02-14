@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ManagePerson>();
 builder.Services.AddScoped<ManageTransaction>();
 builder.Services.AddScoped<ManageCategory>();
-builder.Services.AddInfrastructure(builder.Configuration);
+//builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
