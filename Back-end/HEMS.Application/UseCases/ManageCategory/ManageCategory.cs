@@ -20,20 +20,13 @@ namespace HEMS.Application.UseCases.ManageCategory
             _repository = repository;
         }
 
-        public async Task<CategoryDTO> CreateCategory(CategoryDTO categoryDTO)
+        public async Task CreateCategory(CategoryDTO categoryDTO)
         {
             Category category = new Category(categoryDTO.Description, (TypePurpose)categoryDTO.Type);
             Category created = await _repository.AddAsync(category);
-
-            return new CategoryDTO
-            {
-                Id = created.Id,
-                Description = created.Description,
-                Type = (int)created.TypePurpose,
-            };
         }
 
-        public async Task<CategoryDTO> UpdateCategory(CategoryDTO categoryDTO)
+        public async Task UpdateCategory(CategoryDTO categoryDTO)
         {
             if (categoryDTO.Id == 0)
             {
@@ -42,13 +35,6 @@ namespace HEMS.Application.UseCases.ManageCategory
             Category category = new Category(categoryDTO.Description, (TypePurpose)categoryDTO.Type);
             category.Id = categoryDTO.Id;
             Category created = await _repository.UpdateAsync(category);
-
-            return new CategoryDTO
-            {
-                Id = created.Id,
-                Description = created.Description,
-                Type = (int)created.TypePurpose,
-            };
         }
 
         public async Task DeleteCategory(long id)

@@ -20,74 +20,44 @@ namespace HEMS.Application.UseCases.ManageTransaction
             _repository = repository;
         }
 
-        public async Task<TransactionDTO> CreateTransaction(TransactionDTO transactionDTO)
+        private void checkCategory(TransactionDTO transactionDTO)
         {
+            if (!transactionDTO.Category.Type.Equals((int)TypePurpose.Ambos) && !transactionDTO.Category.Type.Equals(transactionDTO.Type))
+            {
+                throw new InvalidOperationException("Transação deve ser do mesmo tipo da Categoria escolhida");
+            }
+        }
+
+        public async Task CreateTransaction(TransactionDTO transactionDTO)
+        {
+            checkCategory(transactionDTO);
             Transaction transaction = new Transaction(
                 transactionDTO.Description,
                 transactionDTO.Value,
                 (TypePurpose)transactionDTO.Type,
-                new Category(transactionDTO.Category.Description, (TypePurpose)transactionDTO.Category.Type),
-                new Person(transactionDTO.Person.Name, transactionDTO.Person.Age)
+                transactionDTO.Category.Id,
+                transactionDTO.Person.Id
                 );
             Transaction created = await _repository.AddAsync(transaction);
-
-            return new TransactionDTO
-            {
-                Id = created.Id,
-                Description = created.Description,
-                Value = created.Value,
-                Type = (int)created.TypePurpose,
-                Category = new CategoryDTO()
-                {
-                    Id = created.Category.Id,
-                    Description = created.Category.Description,
-                    Type = (int)created.Category.TypePurpose,
-                },
-                Person = new PersonDTO
-                {
-                    Id = created.Person.Id,
-                    Name = created.Person.Name,
-                    Age = created.Person.Age
-                },
-            };
         }
 
-        public async Task<TransactionDTO> UpdateTransaction(TransactionDTO transactionDTO)
+        public async Task UpdateTransaction(TransactionDTO transactionDTO)
         {
             if (transactionDTO.Id == 0)
             {
                 throw new InvalidOperationException("objeto tem que ter id para ser atualizado");
             }
+            checkCategory(transactionDTO);
 
             Transaction transaction = new Transaction(
                 transactionDTO.Description,
                 transactionDTO.Value,
                 (TypePurpose)transactionDTO.Type,
-                new Category(transactionDTO.Category.Description, (TypePurpose)transactionDTO.Category.Type),
-                new Person(transactionDTO.Person.Name, transactionDTO.Person.Age)
+                transactionDTO.Category.Id,
+                transactionDTO.Person.Id
                 );
             transaction.Id = transactionDTO.Id;
             Transaction created = await _repository.UpdateAsync(transaction);
-
-            return new TransactionDTO
-            {
-                Id = created.Id,
-                Description = created.Description,
-                Value = created.Value,
-                Type = (int)created.TypePurpose,
-                Category = new CategoryDTO()
-                {
-                    Id = created.Category.Id,
-                    Description = created.Category.Description,
-                    Type = (int)created.Category.TypePurpose,
-                },
-                Person = new PersonDTO
-                {
-                    Id = created.Person.Id,
-                    Name = created.Person.Name,
-                    Age = created.Person.Age
-                },
-            };
         }
 
         public async Task DeleteTransaction(long id)

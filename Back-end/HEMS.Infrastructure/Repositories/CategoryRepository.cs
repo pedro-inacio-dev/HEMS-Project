@@ -57,11 +57,11 @@ namespace HEMS.Infrastructure.Repositories
                 SELECT
                     p.""Id"" AS ""IDCategory"",
                     p.""Description"" AS ""Description"",
-                    COUNT(CASE WHEN t.""TypePurpose"" = 1 THEN 1 END) AS ""Revenue"",
-                    COUNT(CASE WHEN t.""TypePurpose"" = 0 THEN 1 END) AS ""Expense"",
-                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 1 THEN t.""Value"" ELSE 0 END), 0)
+                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 2 THEN t.""Value"" ELSE 0 END), 0) AS ""Revenue"",
+                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 1 THEN t.""Value"" ELSE 0 END), 0) AS ""Expense"",
+                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 2 THEN t.""Value"" ELSE 0 END), 0)
                     -
-                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 0 THEN t.""Value"" ELSE 0 END), 0) AS ""Balance""
+                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 1 THEN t.""Value"" ELSE 0 END), 0) AS ""Balance""
                 FROM ""Category"" p
                 LEFT JOIN ""Transaction"" t ON t.""CategoryId"" = p.""Id""
                 GROUP BY p.""Id"", p.""Description""
@@ -76,11 +76,11 @@ namespace HEMS.Infrastructure.Repositories
             string sql = @"
                 SELECT
                     COUNT(DISTINCT p.""Id"") AS ""TotalCategories"",
-                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 1 THEN t.""Value"" ELSE 0 END), 0) AS ""TotalRevenue"",
-                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 0 THEN t.""Value"" ELSE 0 END), 0) AS ""TotalExpense"",
-                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 1 THEN t.""Value"" ELSE 0 END), 0)
+                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 2 THEN t.""Value"" ELSE 0 END), 0) AS ""TotalRevenue"",
+                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 1 THEN t.""Value"" ELSE 0 END), 0) AS ""TotalExpense"",
+                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 2 THEN t.""Value"" ELSE 0 END), 0)
                     -
-                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 0 THEN t.""Value"" ELSE 0 END), 0) AS ""TotalBalance""
+                    COALESCE(SUM(CASE WHEN t.""TypePurpose"" = 1 THEN t.""Value"" ELSE 0 END), 0) AS ""TotalBalance""
                 FROM ""Category"" p
                 LEFT JOIN ""Transaction"" t ON t.""CategoryId"" = p.""Id""
             ";

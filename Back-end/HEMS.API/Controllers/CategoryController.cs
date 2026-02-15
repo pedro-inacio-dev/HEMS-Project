@@ -20,16 +20,16 @@ namespace HEMS.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] CategoryDTO categoryDTO)
         {
-            CategoryDTO result = await _manageCategory.CreateCategory(categoryDTO);
-            return Ok(result);
+            await _manageCategory.CreateCategory(categoryDTO);
+            return Ok();
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Update([FromRoute] long id, [FromBody] CategoryDTO categoryDTO)
         {
             categoryDTO.Id = id;
-            CategoryDTO result = await _manageCategory.UpdateCategory(categoryDTO);
-            return Ok(result);
+            await _manageCategory.UpdateCategory(categoryDTO);
+            return Ok();
         }
 
         [HttpDelete("{id}")]

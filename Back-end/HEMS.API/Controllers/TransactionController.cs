@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HEMS.API.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class TransactionController : ControllerBase
     {
         private readonly ManageTransaction _manageTransaction;
@@ -19,16 +21,16 @@ namespace HEMS.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] TransactionDTO transactionDTO)
         {
-            TransactionDTO result = await _manageTransaction.CreateTransaction(transactionDTO);
-            return Ok(result);
+            await _manageTransaction.CreateTransaction(transactionDTO);
+            return Ok();
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Update([FromRoute] long id, [FromBody] TransactionDTO transactionDTO)
         {
             transactionDTO.Id = id;
-            TransactionDTO result = await _manageTransaction.UpdateTransaction(transactionDTO);
-            return Ok(result);
+            await _manageTransaction.UpdateTransaction(transactionDTO);
+            return Ok();
         }
 
         [HttpDelete("{id}")]

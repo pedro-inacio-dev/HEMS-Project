@@ -19,16 +19,16 @@ namespace HEMS.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] PersonDTO personDTO)
         {
-            PersonDTO result = await _managePerson.CreatePerson(personDTO);
-            return Ok(result);
+            await _managePerson.CreatePerson(personDTO);
+            return Ok();
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Update([FromRoute] long id, [FromBody] PersonDTO personDTO)
         {
             personDTO.Id = id;
-            PersonDTO result = await _managePerson.UpdatePerson(personDTO);
-            return Ok(result);
+            await _managePerson.UpdatePerson(personDTO);
+            return Ok();
         }
 
         [HttpDelete("{id}")]

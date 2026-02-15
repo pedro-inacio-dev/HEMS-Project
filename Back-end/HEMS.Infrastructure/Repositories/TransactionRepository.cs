@@ -42,12 +42,12 @@ namespace HEMS.Infrastructure.Repositories
 
         public async Task<List<Transaction>> GetAllAsync()
         {
-            return await _context.Transaction.ToListAsync();
+            return await _context.Transaction.Include(t => t.Category).Include(t => t.Person).ToListAsync();
         }
 
         public async Task<Transaction?> GetByIdAsync(long id)
         {
-            return await _context.Transaction.FindAsync(id);
+            return await _context.Transaction.Include(t => t.Category).Include(t => t.Person).FirstOrDefaultAsync(t => t.Id == id);
         }
     }
 }

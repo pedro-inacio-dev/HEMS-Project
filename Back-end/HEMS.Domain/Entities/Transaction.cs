@@ -13,8 +13,12 @@ namespace HEMS.Domain.Entities
         public string Description { get; set; }
         public decimal Value { get; set; }
         public TypePurpose TypePurpose { get; set; }
-        public Category Category { get; set; }
-        public Person Person { get; set; }
+
+        public long CategoryId { get; set; }
+        public long PersonId { get; set; }
+
+        public virtual Category? Category { get; set; }
+        public virtual Person? Person { get; set; }
 
         private Transaction() { }
 
@@ -22,8 +26,8 @@ namespace HEMS.Domain.Entities
             string description,
             decimal value,
             TypePurpose typePurpose,
-            Category category,
-            Person person
+            long categoryId,
+            long personId
             ) {
             if (value < 0)
             {
@@ -37,15 +41,11 @@ namespace HEMS.Domain.Entities
             {
                 throw new InvalidOperationException("Transação deve ser do tipo Receita ou Despesa");
             }
-            if (!category.TypePurpose.Equals(TypePurpose.Ambos) && !category.TypePurpose.Equals(typePurpose))
-            {
-                throw new InvalidOperationException("Transação deve ser do mesmo tipo da Categoria escolhida");
-            }
             Description = description;
             Value = value;
             TypePurpose = typePurpose;
-            Category = category;
-            Person = person;
+            CategoryId = categoryId;
+            PersonId = personId;
         }
     }
 }

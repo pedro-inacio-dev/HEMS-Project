@@ -19,20 +19,13 @@ namespace HEMS.Application.UseCases.ManagePerson
             _repository = repository;
         }
 
-        public async Task<PersonDTO> CreatePerson(PersonDTO personDTO)
+        public async Task CreatePerson(PersonDTO personDTO)
         {
             Person person = new Person(personDTO.Name, personDTO.Age);
             Person created = await _repository.AddAsync(person);
-
-            return new PersonDTO
-            {
-                Id = created.Id,
-                Name = created.Name,
-                Age = created.Age
-            };
         }
 
-        public async Task<PersonDTO> UpdatePerson(PersonDTO personDTO)
+        public async Task UpdatePerson(PersonDTO personDTO)
         {
             if (personDTO.Id == 0)
             {
@@ -41,13 +34,6 @@ namespace HEMS.Application.UseCases.ManagePerson
             Person person = new Person(personDTO.Name, personDTO.Age);
             person.Id = personDTO.Id;
             Person created = await _repository.UpdateAsync(person);
-
-            return new PersonDTO
-            {
-                Id = created.Id,
-                Name = created.Name,
-                Age = created.Age
-            };
         }
 
         public async Task DeletePerson(long id)

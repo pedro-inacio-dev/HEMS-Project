@@ -8,10 +8,10 @@ namespace HEMS.Shared.DTOs
 {
     public class TotalByCategoryDTO
     {
-        public List<ValueByCategoryDTO> ValueByCategoryDTOs;
+        public List<ValueByCategoryDTO> ValueByCategoryDTOs { get; set; }
         public int TotalCategories { get; set; }
         public decimal TotalRevenue { get; set; }
-        public decimal TotalExpenses { get; set; }
+        public decimal TotalExpense { get; set; }
         public decimal TotalBalance { get; set; }
     }
 

@@ -8,7 +8,7 @@ namespace HEMS.Shared.DTOs
 {
     public class TotalByPersonDTO
     {
-        public List<ValueByPersonDTO> ValueByPersonDTOs;
+        public List<ValueByPersonDTO> ValueByPersonDTOs { get; set; }
         public int TotalPeople { get; set; }
         public decimal TotalRevenue { get; set; }
         public decimal TotalExpense { get; set; }
