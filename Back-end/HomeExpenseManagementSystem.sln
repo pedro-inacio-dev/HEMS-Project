@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36908.2 d17.14
+VisualStudioVersion = 17.14.36908.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HEMS.API", "HEMS.API\HEMS.API.csproj", "{BE92C634-55B1-4316-B875-BDF2C5C6150D}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HEMS.Application", "HEMS.Application\HEMS.Application.csproj", "{697A74C4-3F79-4828-BA7C-149E2EFE9016}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HEMS.Infrastructure", "HEMS.Infrastructure\HEMS.Infrastructure.csproj", "{98333791-CD95-41DB-AD4E-B094317A34A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HEMS.Shared", "HEMS.Shared\HEMS.Shared.csproj", "{B162CBEE-6AF2-40CB-97E3-60AEEE83AB2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{98333791-CD95-41DB-AD4E-B094317A34A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98333791-CD95-41DB-AD4E-B094317A34A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98333791-CD95-41DB-AD4E-B094317A34A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B162CBEE-6AF2-40CB-97E3-60AEEE83AB2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B162CBEE-6AF2-40CB-97E3-60AEEE83AB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B162CBEE-6AF2-40CB-97E3-60AEEE83AB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B162CBEE-6AF2-40CB-97E3-60AEEE83AB2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

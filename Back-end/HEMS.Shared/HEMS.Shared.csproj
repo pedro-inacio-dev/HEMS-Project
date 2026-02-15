@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\HEMS.Infrastructure\HEMS.Infrastructure.csproj" />
-    <ProjectReference Include="..\HEMS.Shared\HEMS.Shared.csproj" />
-  </ItemGroup>
-
 </Project>

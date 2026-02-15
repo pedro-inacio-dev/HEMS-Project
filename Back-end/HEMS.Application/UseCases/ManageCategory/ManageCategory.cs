@@ -1,4 +1,8 @@
 ﻿using HEMS.Application.DTOs;
+using HEMS.Domain.Entities;
+using HEMS.Domain.Enums;
+using HEMS.Infrastructure.Interfaces;
+using HEMS.Shared.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +13,95 @@ namespace HEMS.Application.UseCases.ManageCategory
 {
     public class ManageCategory
     {
-        public Task<TotalByCategoryDTO> GetTotalByCategory()
+        private readonly ICategoryRepository _repository;
+
+        public ManageCategory(ICategoryRepository repository)
         {
-            return Task.FromResult(new TotalByCategoryDTO());
+            _repository = repository;
+        }
+
+        public async Task<CategoryDTO> CreateCategory(CategoryDTO categoryDTO)
+        {
+            Category category = new Category(categoryDTO.Description, (TypePurpose)categoryDTO.Type);
+            Category created = await _repository.AddAsync(category);
+
+            return new CategoryDTO
+            {
+                Id = created.Id,
+                Description = created.Description,
+                Type = (int)created.TypePurpose,
+            };
+        }
+
+        public async Task<CategoryDTO> UpdateCategory(CategoryDTO categoryDTO)
+        {
+            if (categoryDTO.Id == 0)
+            {
+                throw new InvalidOperationException("objeto tem que ter id para ser atualizado");
+            }
+            Category category = new Category(categoryDTO.Description, (TypePurpose)categoryDTO.Type);
+            category.Id = categoryDTO.Id;
+            Category created = await _repository.UpdateAsync(category);
+
+            return new CategoryDTO
+            {
+                Id = created.Id,
+                Description = created.Description,
+                Type = (int)created.TypePurpose,
+            };
+        }
+
+        public async Task DeleteCategory(long id)
+        {
+            Category? obj = await _repository.GetByIdAsync(id);
+            if (obj == null)
+            {
+                throw new Exception("objeto não foi encontrado no banco para deletar");
+            }
+            await _repository.DeleteAsync(obj);
+        }
+
+        public async Task<TotalByCategoryDTO> GetTotalByCategory()
+        {
+            List<ValueByCategoryDTO> obj = await _repository.GetValueByCategoryAsync();
+            TotalByCategoryDTO objTotals = await _repository.GetTotalsByCategoryAsync();
+            if (objTotals.TotalCategories == 0)
+            {
+                return new TotalByCategoryDTO();
+            }
+            objTotals.ValueByCategoryDTOs = obj;
+            return objTotals;
+        }
+
+        public async Task<List<CategoryDTO>> GetAllCategory()
+        {
+            List<Category> obj = await _repository.GetAllAsync();
+            if (obj.Count == 0)
+            {
+                return new List<CategoryDTO>();
+            }
+            return obj.Select(e => new CategoryDTO
+            {
+                Id = e.Id,
+                Description = e.Description,
+                Type = (int)e.TypePurpose,
+            }
+            ).ToList();
+        }
+
+        public async Task<CategoryDTO?> GetCategoryById(long id)
+        {
+            Category? obj = await _repository.GetByIdAsync(id);
+            if (obj == null)
+            {
+                throw new Exception("objeto não foi encontrado no banco");
+            }
+            return new CategoryDTO
+            {
+                Id = obj.Id,
+                Description = obj.Description,
+                Type = (int)obj.TypePurpose,
+            };
         }
     }
 }

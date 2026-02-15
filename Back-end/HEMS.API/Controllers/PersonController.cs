@@ -1,5 +1,6 @@
 using HEMS.Application.DTOs;
 using HEMS.Application.UseCases.ManagePerson;
+using HEMS.Shared.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HEMS.API.Controllers
@@ -15,35 +16,47 @@ namespace HEMS.API.Controllers
             _managePerson = managePerson;
         }
 
-        [HttpGet("TotalByPerson")]
-        public async Task<ActionResult<TotalByPersonDTO>> GetTotalByPerson()
+        [HttpPost]
+        public async Task<ActionResult> Create([FromBody] PersonDTO personDTO)
         {
-            TotalByPersonDTO result = await _managePerson.GetTotalByPerson();
+            PersonDTO result = await _managePerson.CreatePerson(personDTO);
             return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update([FromRoute] long id, [FromBody] PersonDTO personDTO)
+        {
+            personDTO.Id = id;
+            PersonDTO result = await _managePerson.UpdatePerson(personDTO);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] long id)
+        {
+            await _managePerson.DeletePerson(id);
+            return NoContent();
         }
 
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            return null;
+            List<PersonDTO> result = await _managePerson.GetAllPerson();
+            return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Create()
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById([FromRoute] long id)
         {
-            return null;
+            PersonDTO result = await _managePerson.GetPersonById(id);
+            return Ok(result);
         }
 
-        [HttpPut]
-        public async Task<ActionResult> Update()
+        [HttpGet("TotalByPerson")]
+        public async Task<ActionResult<TotalByPersonDTO>> GetTotalByPerson()
         {
-            return null;
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> Delete()
-        {
-            return NoContent();
+            TotalByPersonDTO result = await _managePerson.GetTotalByPerson();
+            return Ok(result);
         }
     }
 }

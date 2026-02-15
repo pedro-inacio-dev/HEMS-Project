@@ -1,4 +1,7 @@
-﻿using HEMS.Application.UseCases.ManageTransaction;
+﻿using HEMS.Application.DTOs;
+using HEMS.Application.UseCases.ManageTransaction;
+using HEMS.Application.UseCases.ManageTransaction;
+using HEMS.Shared.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,16 +16,40 @@ namespace HEMS.API.Controllers
             _manageTransaction = manageTransaction;
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Create([FromBody] TransactionDTO transactionDTO)
+        {
+            TransactionDTO result = await _manageTransaction.CreateTransaction(transactionDTO);
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update([FromRoute] long id, [FromBody] TransactionDTO transactionDTO)
+        {
+            transactionDTO.Id = id;
+            TransactionDTO result = await _manageTransaction.UpdateTransaction(transactionDTO);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] long id)
+        {
+            await _manageTransaction.DeleteTransaction(id);
+            return NoContent();
+        }
+
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            return null;
+            List<TransactionDTO> result = await _manageTransaction.GetAllTransaction();
+            return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Create()
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById([FromRoute] long id)
         {
-            return null;
+            TransactionDTO result = await _manageTransaction.GetTransactionById(id);
+            return Ok(result);
         }
     }
 }

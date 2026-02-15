@@ -9,12 +9,14 @@ namespace HEMS.Domain.Entities
 {
     public class Transaction
     {
-        public long IdTransaction { get; set; }
-        public required string Description { get; set; }
+        public long Id { get; set; }
+        public string Description { get; set; }
         public decimal Value { get; set; }
         public TypePurpose TypePurpose { get; set; }
         public Category Category { get; set; }
         public Person Person { get; set; }
+
+        private Transaction() { }
 
         public Transaction(
             string description,

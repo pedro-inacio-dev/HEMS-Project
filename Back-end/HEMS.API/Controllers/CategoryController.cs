@@ -1,5 +1,7 @@
 using HEMS.Application.DTOs;
 using HEMS.Application.UseCases.ManageCategory;
+using HEMS.Application.UseCases.ManageCategory;
+using HEMS.Shared.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HEMS.API.Controllers
@@ -15,23 +17,47 @@ namespace HEMS.API.Controllers
             _manageCategory = manageCategory;
         }
 
-        [HttpGet("TotalByCategory")]
-        public async Task<ActionResult<TotalByCategoryDTO>> GetTotalByCategory()
+        [HttpPost]
+        public async Task<ActionResult> Create([FromBody] CategoryDTO categoryDTO)
         {
-            var result = await _manageCategory.GetTotalByCategory();
+            CategoryDTO result = await _manageCategory.CreateCategory(categoryDTO);
             return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update([FromRoute] long id, [FromBody] CategoryDTO categoryDTO)
+        {
+            categoryDTO.Id = id;
+            CategoryDTO result = await _manageCategory.UpdateCategory(categoryDTO);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] long id)
+        {
+            await _manageCategory.DeleteCategory(id);
+            return NoContent();
         }
 
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            return null;
+            List<CategoryDTO> result = await _manageCategory.GetAllCategory();
+            return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Create()
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById([FromRoute] long id)
         {
-            return null;
+            CategoryDTO result = await _manageCategory.GetCategoryById(id);
+            return Ok(result);
+        }
+
+        [HttpGet("TotalByCategory")]
+        public async Task<ActionResult<TotalByCategoryDTO>> GetTotalByCategory()
+        {
+            TotalByCategoryDTO result = await _manageCategory.GetTotalByCategory();
+            return Ok(result);
         }
     }
 }

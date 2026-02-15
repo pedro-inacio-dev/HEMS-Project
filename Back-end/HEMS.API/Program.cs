@@ -15,10 +15,21 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ManagePerson>();
 builder.Services.AddScoped<ManageTransaction>();
 builder.Services.AddScoped<ManageCategory>();
-//builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
+app.UseCors();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
