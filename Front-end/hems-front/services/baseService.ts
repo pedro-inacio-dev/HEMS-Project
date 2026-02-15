@@ -16,28 +16,28 @@ export abstract class BaseService {
             method: "GET",
             headers: this.getHeaders()
         })
-
+        
         return this.handleResponse<T>(response, "GET" , entityName)
     }
 
-    protected async post<T>(entityName: string, body: any, path: string = ""): Promise<T> {
+    protected async post<T>(entityName: string, body: any, path: string = ""): Promise<void> {
         const response = await fetch(this.baseUrl, {
             method: "POST",
             headers: this.getHeaders(),
             body: JSON.stringify(body)
         })
 
-        return this.handleResponse<T>(response, "POST" , entityName)
+        this.errorCheck(response, "POST", entityName)
     }
 
-    protected async put<T>(entityName: string, body: any, path: string = ""): Promise<T> {
+    protected async put<T>(entityName: string, body: any, path: string = ""): Promise<void> {
         const response = await fetch(`${this.baseUrl}${path}`, {
             method: "PUT",
             headers: this.getHeaders(),
             body: JSON.stringify(body)
         })
 
-        return this.handleResponse<T>(response, "PUT" , entityName)
+        this.errorCheck(response, "PUT", entityName)
     }
 
     protected async delete(entityName: string, path: string = ""): Promise<void> {

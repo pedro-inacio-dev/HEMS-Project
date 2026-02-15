@@ -1,4 +1,4 @@
-import { Person } from "@/types/mainEntities"
+import { Person, TotalByPerson } from "@/types/mainEntities"
 import { BaseService } from "./baseService"
 
 const EntityName = "PERSON"
@@ -8,32 +8,23 @@ class PersonService extends BaseService {
         super("person")
     }
 
-    async getAllInfo(): Promise<Person[]> {
-        const response = await fetch(`${this.baseUrl}/AllInfo`, 
+    async getAllInfo(): Promise<TotalByPerson> {
+        const response = await fetch(`${this.baseUrl}/TotalByPerson`, 
             {
                 method: "GET",
                 headers: this.getHeaders()
             }
         )
-
-        return this.handleResponse<Person[]>(response, "GET" , EntityName)
+    
+        return this.handleResponse<TotalByPerson>(response, "GET" , EntityName)
     }
 
     getPerson() {
-        return  [{
-            id: 1,
-            name: "teste",
-            age: 20
-        },
-    {
-            id: 2,
-            name: "teste2",
-            age: 22
-        }] //this.get<Person[]>(EntityName)
+        return this.get<Person[]>(EntityName)
     }
 
     getPersonById(id : number) {
-        return this.get<Person[]>(EntityName, `/${id}`)
+        return this.get<Person>(EntityName, `/${id}`)
     }
 
     create(newObj: Person) {

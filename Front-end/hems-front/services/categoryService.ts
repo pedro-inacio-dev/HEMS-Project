@@ -1,4 +1,4 @@
-import { Category } from "@/types/mainEntities"
+import { Category, TotalByCategory } from "@/types/mainEntities"
 import { BaseService } from "./baseService"
 
 const EntityName = "CATEGORY"
@@ -8,15 +8,15 @@ class CategoryService extends BaseService {
         super("category")
     }
 
-    async getAllInfo(): Promise<Category[]> {
-        const response = await fetch(`${this.baseUrl}/AllInfo`, 
+    async getAllInfo(): Promise<TotalByCategory> {
+        const response = await fetch(`${this.baseUrl}/TotalByCategory`, 
             {
                 method: "GET",
                 headers: this.getHeaders()
             }
         )
 
-        return this.handleResponse<Category[]>(response, "GET" , EntityName)
+        return this.handleResponse<TotalByCategory>(response, "GET" , EntityName)
     }
 
     getCategory() {
@@ -24,15 +24,15 @@ class CategoryService extends BaseService {
     }
 
     getCategoryById(id : number) {
-        return this.get<Category[]>(EntityName, `/${id}`)
+        return this.get<Category>(EntityName, `/${id}`)
     }
 
     create(newObj: Category) {
         return this.post<Category>(EntityName, newObj)
     }
 
-    update(id: number, nome: string) {
-        return this.put<void>(EntityName, { nome }, `/${id}`)
+    update(id: number, category: Category) {
+        return this.put<void>(EntityName, category, `/${id}`)
     }
 
     deletecategory(id: number) {

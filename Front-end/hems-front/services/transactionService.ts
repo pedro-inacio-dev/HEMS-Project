@@ -13,15 +13,15 @@ class TransactionService extends BaseService {
     }
 
     getTransactionById(id : number) {
-        return this.get<Transaction[]>(EntityName, `/${id}`)
+        return this.get<Transaction>(EntityName, `/${id}`)
     }
 
     create(newObj: Transaction) {
         return this.post<Transaction>(EntityName, newObj)
     }
 
-    update(id: number, nome: string) {
-        return this.put<void>(EntityName, { nome }, `/${id}`)
+    update(id: number, transaction: Transaction) {
+        return this.put<void>(EntityName, transaction, `/${id}`)
     }
 
     deleteTransaction(id: number) {

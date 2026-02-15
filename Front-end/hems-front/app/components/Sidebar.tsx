@@ -8,6 +8,8 @@ export default function Sidebar() {
 
     const links = [
         { href: "/", label: "Início" },
+        { href: "/TotalByPerson", label: "Total por Pessoa" },
+        { href: "/TotalByCategory", label: "Total por Categoria" },
         { href: "/person", label: "Pessoa" },
         { href: "/transaction", label: "Transação" },
         { href: "/category", label: "Categoria" }
@@ -15,7 +17,7 @@ export default function Sidebar() {
 
     return (
         <aside style={styles.sidebar}>
-            <h2 style={{ marginBottom: 20 }}>
+            <h2 style={{ marginBottom: 20 }} className="text-3xl font-bold">
                 <Link
                     key="/"
                     href="/"

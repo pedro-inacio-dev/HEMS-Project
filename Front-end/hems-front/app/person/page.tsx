@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Person } from "@/types/mainEntities"
 import personService from "@/services/personService"
 
-export default function PessoasPage() {
+export default function PersonPage() {
     const [pessoas, setPessoas] = useState<Person[]>([])
     const [personEditing, setPersonEditing] = useState<Person | null>(null)
     const [personDeleting, setPersonDeleting] = useState<Person | null>(null)
@@ -55,9 +55,9 @@ export default function PessoasPage() {
     }
 
     function closeModal() {
-        if(personDeleting){
+        if (personDeleting) {
             setPersonDeleting(null)
-        }else{
+        } else {
             setPersonEditing(null)
         }
     }
@@ -81,47 +81,74 @@ export default function PessoasPage() {
     }
 
     return (
+
         <div style={{ padding: 40 }}>
             <h1 className="text-3xl font-bold">
                 Lista de Pessoas
             </h1>
             <div style={styles.row}>
-                <div className="text-1xl font-bold">Pessoa | Idade</div>
-                <div>
+                <div style={{ marginBottom: 10 }}>
                     <button style={styles.addButton} onClick={() => openModal()}>
                         Cadastrar Pessoa
                     </button>
                 </div>
 
             </div>
-            <ul>
-                {pessoas.length === 0 ? (
-                    <li>Nenhuma pessoa cadastrada.</li>
-                ) : (
-                    pessoas.map(pessoa => (
-                        <li key={pessoa.id} style={styles.row}>
-                            <div>
-                                {pessoa.name}
-                            </div>
-                            <p>|</p>
-                            <div style={styles.rowCenter}>
-                                {pessoa.age}
-                            </div>
-                            <p>|</p>
-                            <button style={styles.editButton} onClick={() => openModal(false, pessoa)}>
-                                Editar
-                            </button>
-                            <p>|</p>
-                            <button
-                                style={styles.deleteButton}
-                                onClick={() => openModal(true, pessoa)}
-                            >
-                                Deletar
-                            </button>
-                        </li>
-                    ))
-                )}
-            </ul>
+
+            <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+                <table className="w-full text-sm text-left rtl:text-right text-body" >
+                    <thead className="bg-neutral-secondary-soft border-b border-default">
+                        <tr style={{ backgroundColor: "black" }}>
+                            <th scope="col" className="px-6 py-3 font-medium">
+                                Nome
+                            </th>
+                            <th scope="col" className="px-6 py-3 font-medium">
+                                Idade
+                            </th>
+                            <th scope="col" className="px-6 py-3 font-medium">
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {pessoas?.length === 0 ? (
+                            <tr className="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default">
+                                <td className="px-6 py-4">
+                                    Nenhuma pessoa cadastrada.
+                                </td>
+                            </tr>
+                        ) : (
+                            pessoas?.map((pessoa, index) => (
+                                <tr
+                                    key={pessoa.id}
+                                    style={{
+                                        borderBottom: '1px solid',
+                                    }}
+                                    className="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default"
+                                >
+                                    <td className="px-6 py-4">
+                                        {pessoa.name}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {pessoa.age}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <button style={styles.editButton} onClick={() => openModal(false, pessoa)}>
+                                            Editar
+                                        </button>
+                                        <button
+                                            style={styles.deleteButton}
+                                            onClick={() => openModal(true, pessoa)}
+                                        >
+                                            Deletar
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
+            </div>
 
             {personEditing && (
                 <div style={styles.overlay}>
@@ -131,8 +158,9 @@ export default function PessoasPage() {
                         </h2>
 
                         <div style={{
-                            ...styles.column}}>
-                            <label htmlFor="name" style={{color: "gray"}}>Nome</label>
+                            ...styles.column
+                        }}>
+                            <label htmlFor="name" style={{ color: "gray" }}>Nome</label>
                             <input
                                 id="name"
                                 value={personEditing.name}
@@ -144,7 +172,7 @@ export default function PessoasPage() {
                                 }
                             />
 
-                            <label htmlFor="age" style={{color: "gray"}}>Idade</label>
+                            <label htmlFor="age" style={{ color: "gray" }}>Idade</label>
                             <input
                                 id="age"
                                 type="number"
@@ -185,8 +213,8 @@ export default function PessoasPage() {
 
                         <div>
                             <p>
-                                Tem certeza que deseja deletar a pessoa de nome 
-                                <strong style={{ padding: 5}}>
+                                Tem certeza que deseja deletar a pessoa de nome
+                                <strong style={{ padding: 5 }}>
                                     {personDeleting.name}
                                 </strong>
                                 ? Essa ação NÃO poderá ser desfeita
@@ -291,8 +319,9 @@ const styles: { [key: string]: React.CSSProperties } = {
         alignItems: "center"
     },
 
-    input:{
-        backgroundColor: "gray", 
-        color: "black", 
-        padding: 5}
+    input: {
+        backgroundColor: "gray",
+        color: "black",
+        padding: 5
+    }
 }
